@@ -36,7 +36,7 @@ class UserLocalDataSourceImpl(
                 putString(KEY_PHONE, user.phoneNumber)
             }
         }
-        Log.d("UserLocalDataSource", "User saved: ${user.name} ${user.surname}")    }
+    }
 
     override suspend fun getUser(): User? {
         return withContext(Dispatchers.IO) {

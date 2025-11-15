@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,10 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.test_neurone.R
 import com.example.test_neurone.core.components.ScreenStatus
 import com.example.test_neurone.core.ui.BaseScreen
 import com.example.test_neurone.core.ui.ErrorScreen
@@ -54,7 +54,8 @@ fun PurchasesScreen(
     state: PurchasesScreenState,
     navController: NavController
 ) {
-    BaseScreen (useVerticalScroll = false) {
+    BaseScreen(useVerticalScroll = false) {
+
         // хедер
         Header { navController.popBackStack() }
 
@@ -63,7 +64,7 @@ fun PurchasesScreen(
 
         // заголовок
         Text(
-            text = "Мои покупки",
+            text = stringResource(R.string.my_purchases_title),
             color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 26.sp,
         )
@@ -83,13 +84,14 @@ fun PurchasesScreen(
     }
 }
 
-
 // группа по дате
 @Composable
 fun PurchaseGroupItem(purchaseGroup: PurchaseGroup) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
+
+        // дата группы покупок
         Text(
             text = purchaseGroup.date,
             color = MaterialTheme.colorScheme.onSecondary,
@@ -100,6 +102,7 @@ fun PurchaseGroupItem(purchaseGroup: PurchaseGroup) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // контейнер с покупками
         Column(
             modifier = Modifier
                 .fillMaxWidth()

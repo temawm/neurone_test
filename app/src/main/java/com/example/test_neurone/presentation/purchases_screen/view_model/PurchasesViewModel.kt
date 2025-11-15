@@ -39,10 +39,10 @@ class PurchasesViewModel(
                 }
 
             } catch (e: Exception) {
-                Log.e("PurchasesViewModel", "Ошибка получения покупок", e)
                 _state.update {
                     it.copy(screenState = ScreenStatus.ERROR)
                 }
+                Log.d("e", e.toString())
             }
         }
     }

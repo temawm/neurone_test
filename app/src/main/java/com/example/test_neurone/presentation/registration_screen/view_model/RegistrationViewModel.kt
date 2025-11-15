@@ -1,5 +1,6 @@
 package com.example.test_neurone.presentation.registration_screen.view_model
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.test_neurone.core.components.ScreenStatus
@@ -13,9 +14,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RegistrationViewModel(
-    private val validator: Validator = Validator(),
+    private val validator: Validator,
     private val saveUserUseCase: SaveUserUseCase,
 
     ) : ViewModel() {
@@ -86,16 +88,16 @@ class RegistrationViewModel(
                     _state.update { it.copy(screenState = ScreenStatus.LOADING) }
 
                     saveUserUseCase(_state.value.user)
-
-                    cont()
-
-
+                    withContext(Dispatchers.Main) {
+                        cont()
+                    }
 
 
                 } catch (e: Exception) {
                     _state.update {
                         it.copy(screenState = ScreenStatus.ERROR)
                     }
+                    Log.d("e", e.toString())
                 }
             }
         }

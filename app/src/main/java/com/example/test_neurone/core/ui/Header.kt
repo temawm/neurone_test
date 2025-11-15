@@ -1,6 +1,5 @@
 package com.example.test_neurone.core.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,11 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.test_neurone.R
-import com.example.test_neurone.core.theme.Test_neuroneTheme
-
 
 // хедер для всех экранов
 @Composable
@@ -32,25 +30,21 @@ fun Header(backClick: () -> Unit) {
             modifier = Modifier
                 .wrapContentWidth()
                 .height(48.dp)
-                .clickable(
-                    onClick = { backClick() }
-                ),
+                .clickable { backClick() },
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 painter = painterResource(R.drawable.arrow_back),
                 tint = MaterialTheme.colorScheme.onPrimary,
-                contentDescription = "arrow_back",
+                contentDescription = stringResource(R.string.cd_arrow_back),
                 modifier = Modifier.size(18.dp)
             )
             Text(
-                text = "Назад",
+                text = stringResource(R.string.back),
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 18.sp
             )
-
         }
     }
-
 }

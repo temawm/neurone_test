@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">test_neurone</string>
+
+    <string name="error_user_id_digits">Номер должен содержать только цифры</string>
+    <string name="error_user_id_length">Номер должен содержать 16 цифр</string>
+    <string name="error_code_digits">Код должен содержать только цифры</string>
+    <string name="error_code_length">Код должен содержать 4 цифры</string>
+    <string name="error_name_letters">Имя должно содержать только латинские буквы</string>
+    <string name="error_name_length">Имя должно содержать минимум 2 буквы</string>
+    <string name="error_surname_letters">Фамилия должна содержать только латинские буквы</string>
+    <string name="error_surname_length">Фамилия должна содержать минимум 2 буквы</string>
+
+    <string name="error_generic">Произошла ошибка. Попробуйте снова.</string>
+
+    <string name="back">Назад</string>
+    <string name="cd_arrow_back">Стрелка назад</string>
+
+    <string name="error_unauthorized">Пожалуйста, войдите в систему</string>
+
+    <string name="my_purchases">МОИ ПОКУПКИ</string>
+    <string name="settings">НАСТРОЙКИ</string>
+    <string name="change_4_digit_code">Сменить 4-х значный код</string>
+    <string name="bank_clients_registration">Регистрация для клиентов банка</string>
+    <string name="email">E-mail</string>
+    <string name="email_must_confirm">Необходимо подтвердить</string>
+    <string name="biometry_login">Вход по биометрии</string>
+    <string name="language">Язык</string>
+    <string name="cd_edit_button">Редактировать</string>
+    <string name="cd_more">Подробнее</string>
+
+    <string name="my_purchases_title">Мои покупки</string>
+
+    <string name="registration_title">Регистрация для\nклиентов банка</string>
+    <string name="field_user_id">Номер участника</string>
+    <string name="field_user_id_hint">Номер из 16 цифр, который вы получили от банка</string>
+    <string name="field_code">Код</string>
+    <string name="field_code_hint">Код, который вы получили от банка</string>
+    <string name="field_name">Имя</string>
+    <string name="field_name_hint">Имя (на латинице, как в загранпаспорте)</string>
+    <string name="field_surname">Фамилия</string>
+    <string name="field_surname_hint">Фамилия (на латинице, как в загранпаспорте)</string>
+
+    <string name="continue_agree_first">Нажимая кнопку продолжить,</string>
+    <string name="continue_agree_second">вы соглашаетесь с </string>
+    <string name="terms_link">условиями участия</string>
+    <string name="btn_continue">Продолжить</string>
+
+    <string name="default_error">Ошибка ввода</string>
+
 </resources>

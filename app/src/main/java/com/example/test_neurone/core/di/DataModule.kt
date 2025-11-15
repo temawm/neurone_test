@@ -1,5 +1,7 @@
 package com.example.test_neurone.core.di
 
+import com.example.test_neurone.core.string_provider.StringProvider
+import com.example.test_neurone.core.string_provider.StringProviderImpl
 import com.example.test_neurone.data.local.impls.UserLocalDataSourceImpl
 import com.example.test_neurone.data.local.interfaces.UserLocalDataSource
 import com.example.test_neurone.data.repository.PurchaseRepositoryImpl
@@ -20,5 +22,8 @@ val DataModule = module {
 
     single<PurchaseRepository> {
         PurchaseRepositoryImpl()
+    }
+    single<StringProvider> {
+        StringProviderImpl(androidContext())
     }
 }

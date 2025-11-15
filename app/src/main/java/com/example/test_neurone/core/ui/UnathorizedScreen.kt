@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.test_neurone.R
 
 @Composable
 fun UnauthorizedScreen() {
@@ -15,8 +17,9 @@ fun UnauthorizedScreen() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Пожалуйста, войдите в систему",
+            text = stringResource(R.string.error_unauthorized),
             color = MaterialTheme.colorScheme.background
         )
     }
 }
+

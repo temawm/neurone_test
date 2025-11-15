@@ -4,36 +4,19 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,17 +24,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.test_neurone.R
 import com.example.test_neurone.core.components.ScreenStatus
-import com.example.test_neurone.core.ui.BaseScreen
-import com.example.test_neurone.core.ui.ErrorScreen
-import com.example.test_neurone.core.ui.Header
-import com.example.test_neurone.core.ui.LoadingScreen
-import com.example.test_neurone.core.ui.UnauthorizedScreen
+import com.example.test_neurone.core.ui.*
 import com.example.test_neurone.presentation.home_screen.state.HomeScreenState
 import com.example.test_neurone.presentation.home_screen.view_model.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
 
 // обертка
-
 @Composable
 fun HomeScreenContainer(viewModel: HomeViewModel = koinViewModel(), navController: NavController) {
 
@@ -60,8 +38,6 @@ fun HomeScreenContainer(viewModel: HomeViewModel = koinViewModel(), navControlle
     LaunchedEffect(navBackStackEntry) {
         viewModel.onScreenResume()
     }
-
-
 
     val state by viewModel.state.collectAsState()
     val status = state.screenState // статус экрана через енам класс
@@ -77,7 +53,6 @@ fun HomeScreenContainer(viewModel: HomeViewModel = koinViewModel(), navControlle
 // основной экран
 @Composable
 fun HomeScreen(state: HomeScreenState, navController: NavController, viewModel: HomeViewModel) {
-
 
     //базовый экран с отступами фоном и т.д.
     BaseScreen {
@@ -106,7 +81,7 @@ fun HomeScreen(state: HomeScreenState, navController: NavController, viewModel: 
 
         // надпись мои покупки
         Text(
-            text = "МОИ ПОКУПКИ",
+            text = stringResource(R.string.my_purchases),
             color = MaterialTheme.colorScheme.onSecondary,
             fontSize = 10.sp
         )
@@ -122,7 +97,7 @@ fun HomeScreen(state: HomeScreenState, navController: NavController, viewModel: 
 
         // надпись настройки
         Text(
-            text = "НАСТРОЙКИ",
+            text = stringResource(R.string.settings),
             color = MaterialTheme.colorScheme.onSecondary,
             fontSize = 10.sp
         )
@@ -147,7 +122,7 @@ fun HomeScreen(state: HomeScreenState, navController: NavController, viewModel: 
         // сменить 4-х значный код
         UserContentContainerRow(
             { },
-            { TextForContainer("Сменить 4-х значный код") }
+            { TextForContainer(stringResource(R.string.change_4_digit_code)) }
         )
 
         // отступ
@@ -156,7 +131,7 @@ fun HomeScreen(state: HomeScreenState, navController: NavController, viewModel: 
         // регистрация для клиентов банка
         UserContentContainerRow(
             { navController.navigate("singup_screen")},
-            { TextForContainer("Регистрация для клиентов банка") }
+            { TextForContainer(stringResource(R.string.bank_clients_registration)) }
         )
 
         // отступ
@@ -169,7 +144,6 @@ fun HomeScreen(state: HomeScreenState, navController: NavController, viewModel: 
         )
     }
 }
-
 
 // имя фамилия и иконка карандаша
 @Composable
@@ -200,17 +174,16 @@ fun UserNameBlock(name: String, surname: String) {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-
+            // иконка редактирования
             Icon(
                 painter = painterResource(R.drawable.edit),
                 tint = MaterialTheme.colorScheme.onSecondary,
-                contentDescription = "edit button",
+                contentDescription = stringResource(R.string.cd_edit_button),
                 modifier = Modifier.size(12.dp)
             )
         }
     }
 }
-
 
 // карточка-контейнтер
 @Composable
@@ -239,20 +212,18 @@ fun UserContentContainerRow(
             )
         }
 
+        // стрелка справа
         Icon(
             painter = painterResource(R.drawable.small_arrow_right),
-            contentDescription = "more",
+            contentDescription = stringResource(R.string.cd_more),
             modifier = Modifier
                 .size(24.dp),
             tint = MaterialTheme.colorScheme.onPrimary
         )
 
         Spacer(modifier = Modifier.width(8.dp))
-
-
     }
 }
-
 
 // значки покупок (вставляем в контейнер выше)
 @Composable
@@ -287,7 +258,6 @@ fun UserPurchases() {
     }
 }
 
-
 // почта (тоже вставляем в контейнер)
 @Composable
 fun UserEmail(confirmedEmail: Boolean, email: String) {
@@ -299,7 +269,7 @@ fun UserEmail(confirmedEmail: Boolean, email: String) {
 
     ) {
         Text(
-            text = "E-mail",
+            text = stringResource(R.string.email),
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSecondary
         )
@@ -313,7 +283,7 @@ fun UserEmail(confirmedEmail: Boolean, email: String) {
             )
             if (!confirmedEmail) {
                 Text(
-                    text = "Необходимо подтвердить",
+                    text = stringResource(R.string.email_must_confirm),
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.onErrorContainer
                 )
@@ -340,7 +310,7 @@ fun UserBiometry(
         Spacer(modifier = Modifier.width(16.dp))
 
         Text(
-            text = "Вход по биометрии",
+            text = stringResource(R.string.biometry_login),
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSecondary
         )
@@ -379,7 +349,6 @@ fun UserBiometry(
     }
 }
 
-
 // контейнер для текста, для блоков клиентов банка и смены кода (тоже вставляем в контейнер)
 @Composable
 fun TextForContainer(text: String) {
@@ -399,7 +368,6 @@ fun TextForContainer(text: String) {
 
 }
 
-
 // смена языка, тоже вставляем в контейнер
 @Composable
 fun ChangeLanguage(lang: String) {
@@ -411,7 +379,7 @@ fun ChangeLanguage(lang: String) {
 
     ) {
         Text(
-            text = "Язык",
+            text = stringResource(R.string.language),
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSecondary
         )
@@ -424,4 +392,3 @@ fun ChangeLanguage(lang: String) {
 
     }
 }
-

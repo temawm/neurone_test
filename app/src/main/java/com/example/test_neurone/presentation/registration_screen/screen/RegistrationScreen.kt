@@ -25,8 +25,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -34,13 +34,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.test_neurone.R
 import com.example.test_neurone.core.components.ScreenStatus
 import com.example.test_neurone.core.ui.BaseScreen
 import com.example.test_neurone.core.ui.ErrorScreen
 import com.example.test_neurone.core.ui.Header
 import com.example.test_neurone.core.ui.LoadingScreen
 import com.example.test_neurone.core.ui.UnauthorizedScreen
-
 import com.example.test_neurone.presentation.registration_screen.state.RegistrationScreenState
 import com.example.test_neurone.presentation.registration_screen.view_model.RegistrationViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -61,7 +61,6 @@ fun RegistrationScreenContainer(
     }
 }
 
-
 @Composable
 fun RegistrationScreen(
     state: RegistrationScreenState,
@@ -69,7 +68,7 @@ fun RegistrationScreen(
     viewModel: RegistrationViewModel
 ) {
 
-    //базовый экран с отступами фоном и т.д.
+    // базовый экран с отступами фоном и т.д.
     BaseScreen {
         // хедер
         Header { navController.popBackStack() }
@@ -79,7 +78,7 @@ fun RegistrationScreen(
 
         // текст регистрация для клиентов банка
         Text(
-            text = "Регистрация для\nклиентов банка",
+            text = stringResource(R.string.registration_title),
             color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 26.sp,
             lineHeight = 30.sp
@@ -88,10 +87,10 @@ fun RegistrationScreen(
         // отступ
         Spacer(modifier = Modifier.height(24.dp))
 
-        //поле номер участника
+        // поле номер участника
         BasicTextField(
-            placeholder = "Номер участника",
-            underFieldText = "Номер из 16 цифр, который вы получили от банка",
+            placeholder = stringResource(R.string.field_user_id),
+            underFieldText = stringResource(R.string.field_user_id_hint),
             value = state.user.userId,
             onValueChange = { viewModel.onUserIdChange(it) },
             keyboardType = KeyboardType.Number,
@@ -102,74 +101,65 @@ fun RegistrationScreen(
         // отступ
         Spacer(modifier = Modifier.height(12.dp))
 
-        //поле код
+        // поле код
         BasicTextField(
-            placeholder = "Код",
-            underFieldText = "Код, который вы получили от банка",
+            placeholder = stringResource(R.string.field_code),
+            underFieldText = stringResource(R.string.field_code_hint),
             value = state.user.code,
             onValueChange = { viewModel.onCodeChange(it) },
-
             keyboardType = KeyboardType.Number,
             onlyDigits = true,
             isCorrectField = !state.codeValidation.isError,
             errorMessage = state.codeValidation.errorMessage
         )
 
-
         // отступ
         Spacer(modifier = Modifier.height(8.dp))
 
-        //поле имя участника
+        // поле имя участника
         BasicTextField(
-            placeholder = "Имя",
-            underFieldText = "Имя (на латинице, как в загранпаспорте)",
+            placeholder = stringResource(R.string.field_name),
+            underFieldText = stringResource(R.string.field_name_hint),
             value = state.user.name,
             onValueChange = { viewModel.onNameChange(it) },
             isCorrectField = !state.nameValidation.isError,
             errorMessage = state.nameValidation.errorMessage
         )
 
-
         // отступ
         Spacer(modifier = Modifier.height(8.dp))
 
-        //поле фамилия участника
+        // поле фамилия участника
         BasicTextField(
-            placeholder = "Фамилия",
-            underFieldText = "Фамилия (на латинице, как в загранпаспорте)",
+            placeholder = stringResource(R.string.field_surname),
+            underFieldText = stringResource(R.string.field_surname_hint),
             value = state.user.surname,
             onValueChange = { viewModel.onSurnameChange(it) },
             isCorrectField = !state.surnameValidation.isError,
             errorMessage = state.surnameValidation.errorMessage
         )
 
-
-        // отступ
+        // отступ (растягивающий)
         Spacer(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)
         )
 
-
-        //кнопка регистрации
+        // кнопка регистрации
         RegistrationButton(
-            state.isFormValid,
-            {
+            isEnabled = state.isFormValid,
+            onClick = {
                 viewModel.submitForm {
-                    navController.navigate("home_screen") {
-                        popUpTo("registration_screen") { inclusive = true }
-                    }
+                    navController.popBackStack()
                 }
-            })
+            }
+        )
 
         // отступ
         Spacer(modifier = Modifier.height(12.dp))
-
-
     }
 }
-
 
 // поле ввода (контейнер)
 @Composable
@@ -243,17 +233,16 @@ fun BasicTextField(
             )
         } else {
             Text(
-                text = errorMessage,
+                text = errorMessage.ifEmpty { stringResource(R.string.default_error) },
                 color = colors.onErrorContainer,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(start = 2.dp)
             )
         }
-
     }
 }
 
-//кнопка с текстом снизу
+// кнопка с текстом снизу
 @Composable
 fun RegistrationButton(
     isEnabled: Boolean,
@@ -262,32 +251,31 @@ fun RegistrationButton(
 ) {
     val colors = MaterialTheme.colorScheme
 
-
-    // текст с соглашением
-
-
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        // текст с соглашением (строки вынесены)
         Text(
-            text = "Нажимая кнопку продолжить,",
+            text = stringResource(R.string.continue_agree_first),
             color = colors.onPrimary,
             fontSize = 12.sp,
             textAlign = TextAlign.Center
         )
+
         Row(
             modifier = Modifier.padding(horizontal = 24.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "вы соглашаетесь с ",
+                text = stringResource(R.string.continue_agree_second),
                 color = colors.onPrimary,
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "условиями участия",
+                text = stringResource(R.string.terms_link),
                 color = colors.onPrimary,
                 fontSize = 12.sp,
                 textDecoration = TextDecoration.Underline,
@@ -314,11 +302,10 @@ fun RegistrationButton(
                 .height(56.dp)
         ) {
             Text(
-                text = "Продолжить",
+                text = stringResource(R.string.btn_continue),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
             )
         }
     }
 }
-
