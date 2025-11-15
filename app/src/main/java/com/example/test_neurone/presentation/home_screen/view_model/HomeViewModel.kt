@@ -9,6 +9,7 @@ import com.example.test_neurone.presentation.home_screen.state.HomeScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -19,10 +20,10 @@ class HomeViewModel(
 
     //главный стейт
     private val _state = MutableStateFlow(HomeScreenState())
-    val state: StateFlow<HomeScreenState> = _state
+    val state: StateFlow<HomeScreenState> = _state.asStateFlow()
 
 
-    // меняет значение свитча в блоке биометрии TODO()
+    // меняет значение свитча в блоке биометрии
     fun changeBiometryAccess() {
         _state.update { current ->
             current.copy(

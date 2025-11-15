@@ -23,7 +23,7 @@ class RegistrationViewModel(
     ) : ViewModel() {
 
     private val _state = MutableStateFlow(RegistrationScreenState())
-    val state: StateFlow<RegistrationScreenState> = _state
+    val state: StateFlow<RegistrationScreenState> = _state.asStateFlow()
 
 
 
