@@ -27,7 +27,7 @@ class Validator(private val stringProvider: StringProvider) {
     fun validateName(value: String): ValidationResult {
         return when {
             value.isEmpty() -> ValidationResult.Empty
-            !value.all { it.isLetter() && it.code < 128 } -> ValidationResult.Error(stringProvider.getString("error_name_letters"))
+            !value.all { it.isLetter() && it.code < 128 || it == ' ' } -> ValidationResult.Error(stringProvider.getString("error_name_letters"))
             value.length < 2 -> ValidationResult.Error(stringProvider.getString("error_name_length"))
             else -> ValidationResult.Valid
         }
@@ -36,7 +36,7 @@ class Validator(private val stringProvider: StringProvider) {
     fun validateSurname(value: String): ValidationResult {
         return when {
             value.isEmpty() -> ValidationResult.Empty
-            !value.all { it.isLetter() && it.code < 128 } -> ValidationResult.Error(stringProvider.getString("error_surname_letters"))
+            !value.all { it.isLetter() && it.code < 128 || it == ' ' } -> ValidationResult.Error(stringProvider.getString("error_surname_letters"))
             value.length < 2 -> ValidationResult.Error(stringProvider.getString("error_surname_length"))
             else -> ValidationResult.Valid
         }
@@ -44,8 +44,12 @@ class Validator(private val stringProvider: StringProvider) {
 
     fun filterOnlyDigits(value: String): String = value.filter { it.isDigit() }
 
-    fun filterOnlyLatinLetters(value: String): String = value.filter { it.isLetter() && it.code < 128 }
-}
+    fun filterOnlyLatinLettersSingleSpace(value: String): String {
+        val filtered = value.filter { it.isLetter() && it.code < 128 || it == ' ' }
+
+        // заменяем несколько подряд идущих пробелов на один
+        return filtered.replace(Regex(" +"), " ")
+    }}
 
 // ответ валидатора
 sealed class ValidationResult {

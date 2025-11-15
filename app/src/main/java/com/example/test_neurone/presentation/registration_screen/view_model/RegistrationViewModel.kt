@@ -56,7 +56,7 @@ class RegistrationViewModel(
 
     // изменение имени
     fun onNameChange(value: String) {
-        val filtered = validator.filterOnlyLatinLetters(value)
+        val filtered = validator.filterOnlyLatinLettersSingleSpace(value)
         val validation = validator.validateName(filtered)
 
         _state.update { currentState ->
@@ -69,7 +69,7 @@ class RegistrationViewModel(
 
     // изменение фамилии
     fun onSurnameChange(value: String) {
-        val filtered = validator.filterOnlyLatinLetters(value)
+        val filtered = validator.filterOnlyLatinLettersSingleSpace(value)
         val validation = validator.validateSurname(filtered)
 
         _state.update { currentState ->
@@ -83,20 +83,28 @@ class RegistrationViewModel(
     // отправка формы
     fun submitForm(cont: () -> Unit) {
         if (_state.value.isFormValid) {
-            viewModelScope.launch (Dispatchers.IO) {
+            viewModelScope.launch(Dispatchers.IO) {
                 try {
                     _state.update { it.copy(screenState = ScreenStatus.LOADING) }
 
-                    saveUserUseCase(_state.value.user)
+                    // создаем нового пользователя с обрезанными пробелами
+                    val trimmedUser = _state.value.user.copy(
+                        name = _state.value.user.name.trim(),
+                        surname = _state.value.user.surname.trim(),
+                        phoneNumber = _state.value.user.phoneNumber.trim(),
+                        email = _state.value.user.email.trim(),
+                        userId = _state.value.user.userId.trim(),
+                        code = _state.value.user.code.trim()
+                    )
+
+                    saveUserUseCase(trimmedUser)
+
                     withContext(Dispatchers.Main) {
                         cont()
                     }
 
-
                 } catch (e: Exception) {
-                    _state.update {
-                        it.copy(screenState = ScreenStatus.ERROR)
-                    }
+                    _state.update { it.copy(screenState = ScreenStatus.ERROR) }
                     Log.d("e", e.toString())
                 }
             }

@@ -19,6 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -33,10 +36,15 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenContainer(viewModel: HomeViewModel = koinViewModel(), navController: NavController) {
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState() //при каждом заходе на экран тянуть данные
-
-    LaunchedEffect(navBackStackEntry) {
-        viewModel.onScreenResume()
+    val lifecycleOwner = LocalLifecycleOwner.current //стучимся каждый раз при заходе на экран в sharedpref
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.onScreenResume()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     val state by viewModel.state.collectAsState()
