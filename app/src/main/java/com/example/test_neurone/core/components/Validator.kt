@@ -3,6 +3,7 @@ package com.example.test_neurone.core.components
 import com.example.test_neurone.core.string_provider.StringProvider
 
 
+//класс-валидатор, через композицию попадает в регистрацию
 class Validator(private val stringProvider: StringProvider) {
 
     fun validateUserId(value: String): ValidationResult {
