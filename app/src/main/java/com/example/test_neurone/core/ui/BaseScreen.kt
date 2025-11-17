@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,6 +35,7 @@ fun BaseScreen(
             )
             .padding(top = 32.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
             .imePadding()
+            .navigationBarsPadding()
             .then(
                 if (useVerticalScroll) {
                     Modifier.verticalScroll(rememberScrollState())
